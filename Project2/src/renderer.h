@@ -3,6 +3,10 @@
 #include <glad/glad.h>
 #include <GLFW/glfw3.h>
 
+#include "indexBuffer.h"
+#include "vertexBuffer.h"
+#include "shader.h"
+
 #define ASSERT(x) if(!(x)) __debugbreak();
 #define GLCALL(x) GLClearError();\
     x;\

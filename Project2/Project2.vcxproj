@@ -138,8 +138,10 @@
     <ClCompile Include="..\..\..\..\Downloads\glad\src\glad.c" />
     <ClCompile Include="src\app.cpp" />
     <ClCompile Include="src\indexBuffer.cpp" />
+    <ClCompile Include="src\polygon.cpp" />
     <ClCompile Include="src\renderer.cpp" />
     <ClCompile Include="src\shader.cpp" />
+    <ClCompile Include="src\VertexArray.cpp" />
     <ClCompile Include="src\vertexBuffer.cpp" />
   </ItemGroup>
   <ItemGroup>
@@ -148,9 +150,12 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\indexBuffer.h" />
+    <ClInclude Include="src\Polygon.h" />
     <ClInclude Include="src\renderer.h" />
     <ClInclude Include="src\shader.h" />
+    <ClInclude Include="src\VertexArray.h" />
     <ClInclude Include="src\vertexBuffer.h" />
+    <ClInclude Include="src\VertexBufferLayout.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
