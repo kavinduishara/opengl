@@ -4,6 +4,7 @@
 #include <iostream>
 #include <fstream>
 #include <sstream>
+#include <glm/glm/gtc/type_ptr.hpp>
 
 Shader::Shader(const std::string& vertexPath, const std::string& fragmentPath)
     : m_RendererID(0)
@@ -27,6 +28,10 @@ void Shader::Unbind() const {
 
 std::string Shader::ReadFile(const std::string& path) {
     std::ifstream stream(path);
+    if (!stream.is_open()) {
+        std::cerr << "Failed to open shader file: " << path << std::endl;
+        return "";
+    }
     std::stringstream buffer;
     buffer << stream.rdbuf();
     return buffer.str();
@@ -62,8 +67,17 @@ unsigned int Shader::CreateShader(const std::string& vertexShader, const std::st
     GLCALL(glAttachShader(program, vs));
     GLCALL(glAttachShader(program, fs));
     GLCALL(glLinkProgram(program));
-    GLCALL(glValidateProgram(program));
 
+    // Check for linking errors
+    int success;
+    char infoLog[512];
+    glGetProgramiv(program, GL_LINK_STATUS, &success);
+    if (!success) {
+        glGetProgramInfoLog(program, 512, NULL, infoLog);
+        std::cerr << "Shader program link error:\n" << infoLog << std::endl;
+    }
+
+    GLCALL(glValidateProgram(program));
     GLCALL(glDeleteShader(vs));
     GLCALL(glDeleteShader(fs));
 
@@ -84,4 +98,11 @@ int Shader::GetUniformLocation(const std::string& name) {
 
 void Shader::SetUniform4f(const std::string& name, float v0, float v1, float v2, float v3) {
     GLCALL(glUniform4f(GetUniformLocation(name), v0, v1, v2, v3));
+}
+
+void Shader::SetUniformMat4f(const std::string& name, const glm::mat4& matrix) {
+    GLCALL(glUniformMatrix4fv(GetUniformLocation(name), 1, GL_FALSE, glm::value_ptr(matrix)));
+}
+void Shader::SetUniform3f(const std::string& name, float v0, float v1, float v2) {
+    GLCALL(glUniform3f(GetUniformLocation(name), v0, v1, v2));
 }
